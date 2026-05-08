@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Praxis Taller — base styles
+   Filosofía: el silencio es el protagonista. Tipografías ligeras,
+   transiciones lentas, esquinas rectas, color reservado.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --color-sumi: #1a1a1a;
+  --color-shironeri: #f5f3ee;
+  --color-washi: #ebe7df;
+  --color-sabi: #8a7e6d;
+  --color-ai: #1c2841;
+  --color-aka: #8b1a1a;
+  --color-line: #e7e5e0;
+
+  /* Tipografía: cargada por next/font, expuesta como CSS var */
+  /* Fallbacks de servidor — next/font sobrescribe estas vars en runtime */
+  --font-fraunces: ui-serif, Georgia, "Times New Roman", serif;
+  --font-hanken: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-shippori: var(--font-fraunces);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+}
+
+/* Fraunces: SOFT 0 = terminales más afilados (más arquitectónico, menos friendly).
+   opsz se ajusta automáticamente con font-optical-sizing.
+   Aplicado a todos los headings y a cualquier nodo con .font-serif. */
+.font-serif,
+h1, h2, h3, h4, h5, h6 {
+  font-variation-settings: "SOFT" 0;
+}
+
+html {
+  background-color: var(--color-shironeri);
+  color: var(--color-sumi);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-shironeri);
+  color: var(--color-sumi);
+  font-family: var(--font-hanken);
+  font-weight: 300;
+  font-feature-settings: "liga", "kern", "calt", "ss01";
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background-color: var(--color-sumi);
+  color: var(--color-shironeri);
+}
+
+/* Respeto a reduced-motion — desactiva animaciones complejas */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Texto balanceado — mejora cortes de línea en headings y párrafos largos */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+p {
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+/* Línea horizontal canónica del sitio */
+.hr-line {
+  height: 1px;
+  background-color: var(--color-line);
+  width: 100%;
+}
+
+/* Cinta vertical de scroll indicator */
+.scroll-indicator-line {
+  width: 1px;
+  height: 64px;
+  background-color: var(--color-sumi);
+  transform-origin: top center;
+}
+
+/* Hover de items del nav: subrayado que crece de izq a der */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-link:hover::after,
+.nav-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+/* Plano SVG — animación de stroke al entrar al viewport */
+.plan-svg path,
+.plan-svg line,
+.plan-svg rect,
+.plan-svg polyline,
+.plan-svg circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  pathLength: 1;
+  transition: stroke-dashoffset 1800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.plan-svg.is-visible path,
+.plan-svg.is-visible line,
+.plan-svg.is-visible rect,
+.plan-svg.is-visible polyline,
+.plan-svg.is-visible circle {
+  stroke-dashoffset: 0;
+}
