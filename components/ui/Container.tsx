@@ -1,10 +1,13 @@
-import type { ReactNode } from "react";
+import type { ReactNode, JSX } from "react";
 import clsx from "clsx";
 
 /**
  * Container
  * — Ancho máximo y padding consistente. La columna respira con generosidad.
  *   max-w-[1600px] (no 7xl) porque queremos heroes muy amplios.
+ *
+ *   Nota: en React 19 el namespace global `JSX` se eliminó. Hay que importarlo
+ *   explícitamente desde "react" para usar `JSX.IntrinsicElements`.
  */
 export default function Container({
   children,
